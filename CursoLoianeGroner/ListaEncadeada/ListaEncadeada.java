@@ -50,6 +50,7 @@ public class ListaEncadeada<T> {
    * Retorno: void
    */
 
+
   public void adicionaFim(T elemento) {
     No<T> celula = new No<T>(elemento);
     if (tamanho == 0) { // adiciona elemento no comeco da lista e passa como referencia para o No Head
@@ -61,8 +62,103 @@ public class ListaEncadeada<T> {
     tail = celula; // tail recebe o ultimo , se a lista tiver comecado vazia o tail e head serao
                    // iguais
     tamanho++; // aumenta o tamanho da celula
-
   }
+
+ /*
+   * ***************************************************************
+   * Metodo: adiciona
+   * Funcao: adicionar um No na posicao indicada pelo usuario 
+   * Parametros: objeto que se deseja adicionar e a posicao desejada
+   * Retorno: void
+   */
+  public void adiciona(T elemeneto, int posicao){
+
+    if(posicao < 0 || posicao > tamanho){
+      throw new IllegalArgumentException("Posicao invalida");
+    }
+
+    if(tamanho == 0){ // a lista esta vazia logo se tem que adicionar no comeco
+      adicionaInicio(elemeneto);
+    } else if( posicao == tamanho){ // a posicao desejada é a ultima entao reutilizamos o metodo
+      adicionaFim(elemeneto);
+    } else{
+     No<T> noAnterior = buscaNo(posicao-1); // busca o No da posicao deseja e armazena em noAnterior
+     No<T> proximoNo = noAnterior.getProximo(); // No seguinte do no anterior
+     No<T> novoNo = new No<T>(elemeneto); // criando o No que vai ser adicionado entre noAnteiror e proximoNo
+     novoNo.setProximo(proximoNo);  // setando como referencia o proximoNo , deve sempre setar a referencia do sucessor primeiro para nao se perder as referencias da lista
+     noAnterior.setProximo(novoNo); // setando a referencia do noAnterior para o novoNo assim interligando todos
+     tamanho++;
+    }
+  }
+
+ /*
+   * ***************************************************************
+   * Metodo: removerInicio
+   * Funcao: remover o No inicial mudando a referencia da Head
+   * Parametros: void
+   * Retorno: void
+   */
+  public void removerInicio(){
+    if(tamanho == 0){
+      throw new RuntimeException("Lista vazia");
+    }
+    head = head.getProximo(); 
+    tamanho--;
+    if(tamanho == 0){ // se apos a remocao a lista estiver vazia head e tail referenciam null
+      head = null;
+      tail = null;
+    }
+}
+
+ /*
+   * ***************************************************************
+   * Metodo: removerFim
+   * Funcao: remover o No final mudando a referencia do penultimo para null e atualizando a tail
+   * Parametros: void
+   * Retorno: void
+   */
+  public void removerFim(){
+   if(tamanho == 0){
+      throw new RuntimeException("Lista vazia");
+    } 
+     if(tamanho == 1){
+      removerInicio();
+    } 
+
+    No<T> penultimoNo = buscaNo(tamanho -2); // penultimo no
+    penultimoNo.setProximo(null);
+    tail = penultimoNo;
+    tamanho--;
+}
+
+/*
+   * ***************************************************************
+   * Metodo: remove
+   * Funcao: remove o No da posicao indicada
+   * Parametros: posicao que se deseja remover o NO
+   * Retorno: void
+   */
+public void remove(int posicao) {
+
+       if(posicao < 0 || posicao > tamanho){
+      throw new IllegalArgumentException("Posicao invalida");
+    }
+
+        if (posicao == 0) {
+            removerInicio();
+        }
+        if (posicao == this.tamanho - 1) {
+            removerFim();
+        }
+        No<T> noAnterior = this.buscaNo(posicao - 1);
+        No<T> atual = noAnterior.getProximo();
+        No<T> proximo = atual.getProximo();
+        noAnterior.setProximo(proximo);
+        atual.setProximo(null);
+        this.tamanho--;
+        
+    }
+
   /*
    * ***************************************************************
    * Metodo: buscaNo
