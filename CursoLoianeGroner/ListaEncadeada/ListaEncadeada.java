@@ -2,7 +2,7 @@
 * Autor............: Franco Ribeiro Borba
 * Matricula........: 202310445
 * Inicio...........: 23/03/2023
-* Ultima alteracao.: 23/03/2023
+* Ultima alteracao.: 24/03/2023
 * Nome.............: ListaEncadeada
 * Funcao...........: Implementar uma lista encadeada 
 *************************************************************** */

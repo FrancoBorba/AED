@@ -2,7 +2,7 @@
 * Autor............: Franco Ribeiro Borba
 * Matricula........: 202310445
 * Inicio...........: 23/03/2023
-* Ultima alteracao.: 23/03/2023
+* Ultima alteracao.: 24/03/2023
 * Nome.............: No
 * Funcao...........: Criar os nos de uma lista encadeada , os nos sao onde ficarao armazendados o "elemento" que se deseja adicionar e a referencia para o proximo No
 *************************************************************** */
