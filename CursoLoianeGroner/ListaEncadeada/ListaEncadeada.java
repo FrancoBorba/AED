@@ -28,7 +28,7 @@ public class ListaEncadeada<T> {
    * ***************************************************************
    * Metodo: adicionaInicio
    * Funcao: adicionar sempre no inicio da lista um novo No
-   * Parametros: objeto que se deseja adicionar no fim da lista
+   * Parametros: objeto que se deseja adicionar no inicio da lista
    * Retorno: void
    */
   public void adicionaInicio(T elemento) {
