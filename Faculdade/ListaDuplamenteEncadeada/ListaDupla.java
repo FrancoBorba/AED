@@ -7,8 +7,8 @@
 * Funcao...........: Implementar uma lista dupla encadeada 
 *************************************************************** */
 
-public class ListaDupla {
-  private No head, tail;
+public class ListaDupla<T> {
+  private No<T> head, tail;
   private int tamanho;
 
 
@@ -19,9 +19,9 @@ public class ListaDupla {
    * Parametros:  posicao desejada(inteiro)
    * Retorno: No
    */
-  public No buscarNo(Object elemento){
+  public No<T> buscarNo(Object elemento){
     
-    No celula = head;  // cria um No e passa como referencia a Head para se começar a busca
+    No<T> celula = head;  // cria um No e passa como referencia a Head para se começar a busca
     for(int i =0 ; i < tamanho ; i++){
       if((celula.elemento).equals(elemento)){ // verifica se o elemento do No atual é igual ao do 
       return celula; // retorna o No 
@@ -39,8 +39,8 @@ public class ListaDupla {
    * Parametros:  Objeto que sera utilizado para encontrar o No
    * Retorno: void
    */
-  public void remover(Object elemento){
-    No celula = head;
+  public void remover(T elemento){
+    No<T> celula = head;
     while (celula != null && celula.elemento != elemento) {
       celula = celula.sucessor;
     }
@@ -68,8 +68,8 @@ public class ListaDupla {
    * Parametros: objeto que se deseja adicionar no inicio da lista
    * Retorno: void
    */
-  public void inserirInicio(Object elemento) {
-    No celula = new No(elemento, null, head); // como esta inserindo no inicio a referencia sucessora sera para o head
+  public void inserirInicio(T elemento) {
+    No<T> celula = new No<T>(elemento, null, head); // como esta inserindo no inicio a referencia sucessora sera para o head
                                               // caso existe a anterior séra sempre null
 
     if (head == null) {// a lista esta vazia nesse caso , pode verificar pelo tamhanho tambem
@@ -89,8 +89,8 @@ public class ListaDupla {
    * Parametros: objeto que se deseja adicionar no fim da lista
    * Retorno: void
    */
-  public void inserirFim(Object elemento) {
-    No celula = new No(elemento, tail, null); // como esta sendo inserido no ultimo a referencia sucessora sempre sera
+  public void inserirFim(T elemento) {
+    No<T> celula = new No<T>(elemento, tail, null); // como esta sendo inserido no ultimo a referencia sucessora sempre sera
                                               // null e a anterior sempre sera para a tail;
 
     if (head == null) {// a lista esta vazia nesse caso , pode verificar pelo tamhanho tambem
@@ -124,7 +124,7 @@ public class ListaDupla {
       return "[]";
     }
     StringBuilder builder = new StringBuilder("[");
-    No atual = this.head;
+    No<T> atual = this.head;
     for (int i = 0; i < tamanho - 1; i++) { // para no penultimo elemento , para facilitar a manipulacao de string
       builder.append(atual.elemento).append(",");
       atual = atual.sucessor; // chega no ultimo elemento
@@ -135,18 +135,18 @@ public class ListaDupla {
 
   }
 
-  public final class No {
-    Object elemento;
-    No sucessor, anterior;
+  public final class No<T> { // N entendi o motivo desse Warning
+    T elemento;
+    No<T> sucessor, anterior;
 
-    No(Object elemento) { // esse construtor passa apenas o elemento do No e refencia o anterior e proximo
+    No(T elemento) { // esse construtor passa apenas o elemento do No e refencia o anterior e proximo
                           // como null , sendo assim tendo que ser feito manualmente a referencia
       this.elemento = elemento;
       this.sucessor = null;
       this.anterior = null;
     }
 
-    No(Object elemento, No anterior, No sucessor) { // esse construtor passa como parametro alem do objeto as
+    No(T elemento, No<T> anterior, No<T> sucessor) { // esse construtor passa como parametro alem do objeto as
                                                     // referencias anteriores e sucessoras do No criado , assim quando
                                                     // for se inserir apenas se manipula os Nos sucessores e anteriores
       this.elemento = elemento;
@@ -162,12 +162,12 @@ public class ListaDupla {
    * Parametros: Object que ira no No
    * Retorno: void
    */
- public void inserirDepois (Object item){
+ public void inserirDepois(T item){
 
-      No celula = new No(item, this, sucessor); 
+      No<T> celula = new No<T>(item, this, sucessor); 
       sucessor = celula;
       if(tail == this){
-        tail= sucessor;
+       //  tail= sucessor;  comeco dar erro depois da conversão para generico
       }
       else{
         celula.sucessor.anterior = celula;
@@ -181,12 +181,12 @@ public class ListaDupla {
    * Parametros: Object que ira no No 
    * Retorno: void
    */
-public void inserirAntes(Object item){
-  No celula = new No(item, anterior, this);
+public void inserirAntes(T item){
+  No<T> celula = new No<T>(item, anterior, this);
 
   anterior = celula;
   if(this == head){
-    head = anterior;
+   //  head = anterior; comeco dar erro depois da conversão para generico
   }
   else{
     (celula.anterior).sucessor = celula;

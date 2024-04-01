@@ -9,13 +9,13 @@
 
 public class Principal {
   public static void main(String[] args) {
-    ListaDupla lista = new ListaDupla();
+    ListaDupla<String> lista = new ListaDupla<String>();
 
    
-    lista.inserirInicio(1); // insere o numero 1 no inicio
+    lista.inserirInicio("C"); // insere o numero C no inicio
     lista.inserirInicio("A"); // Insere a letra A no inicio
     lista.inserirFim("B"); // insere a letra B no fim
-    lista.inserirFim(4); // Insere o numero 4 no fim
+    lista.inserirFim("k"); // Insere o numero K no fim
 
   System.out.println(lista); 
 
@@ -23,7 +23,7 @@ public class Principal {
 
   System.out.println(lista); // lista após a remoção
 
-  lista.buscarNo("B").inserirAntes(4);
+  
   
 
 
