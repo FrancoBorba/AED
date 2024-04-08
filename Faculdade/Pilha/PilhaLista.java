@@ -7,6 +7,7 @@
 * Funcao...........: Cria a pilha com uma estrutura de dados de lista
 *************************************************************** */
 public class PilhaLista implements IPilha{
+  @SuppressWarnings("rawtypes")
   private ListaEncadeada lista; // criando a lista
 
   public PilhaLista(){
@@ -62,6 +63,7 @@ public class PilhaLista implements IPilha{
    * Retorno: void
    * ***************************************************************
    */
+  @SuppressWarnings("unchecked")
   @Override
   public void push(Object object) {
     lista.adicionaInicio(object); // adiciona no inicio
