@@ -1,12 +1,12 @@
 /* ***************************************************************
 * Autor............: Franco Ribeiro Borba
 * Matricula........: 202310445
-* Inicio...........: 09/04/2024
-* Ultima alteracao.: 09/04/2024
+* Inicio...........: 08/04/2024
+* Ultima alteracao.: 08/04/2024
 * Nome.............: FilaArray.java
 * Funcao...........: Criar uma fila de Array
 *************************************************************** */
-package Faculdade.Fila;
+package Faculdade.Deque;
 
 import java.util.Arrays;
 
@@ -40,7 +40,8 @@ public class FilaArray<T> implements IFila<T> {
     if(head == array.length){
       head =0;
     }
-    }--count; // diminui o tamanho do Array
+    --count; // diminui o tamanho do Array
+   } 
   }
 
   /*
@@ -116,7 +117,50 @@ public class FilaArray<T> implements IFila<T> {
   return retorno;
   }
 
-  
+  /*
+   * ***************************************************************
+   * Metodo: getHead
+   * Funcao: retorna head(index do comeco da fila)
+   * Parametros: void
+   * Retorno: int
+   * ***************************************************************
+   */
+  public int getHead(){
+    return head;
+  }
+  /*
+   * ***************************************************************
+   * Metodo: setHead
+   * Funcao: setar um novo  Head
+   * Parametros: novo index
+   * Retorno: void
+   * ***************************************************************
+   */
+  public void setHead(int head){
+    this.head = head;
+  }
+  /*
+   * ***************************************************************
+   * Metodo: getTail
+   * Funcao: retorna tail(index do fim da fila)
+   * Parametros: void
+   * Retorno: int
+   * ***************************************************************
+   */
+  public int getTail(){
+    return tail;
+  }
+   /*
+   * ***************************************************************
+   * Metodo: setTail
+   * Funcao: setar um novo Tail
+   * Parametros: novo index
+   * Retorno: void
+   * ***************************************************************
+   */
+  public void setTail(int tail){
+    this.tail = tail;
+  }
 
   @Override
   public String toString() {

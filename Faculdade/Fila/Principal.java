@@ -19,9 +19,9 @@ public class Principal {
     filaArray.desenfileirar();
     System.out.println(filaArray); // imprime após tirar o primeiro elemento
 
-    //filaArray.fazVazia(); // limpa a fila (esta dando erro)
+    filaArray.fazVazia(); 
 
-    //System.out.println(filaArray); 
+    System.out.println(filaArray); 
 
     System.out.println("------------------------------------------------------------------------");
 
@@ -39,7 +39,9 @@ public class Principal {
 
   System.out.println("Elemento inicial da fila = " + filaLista.getPrimeiro());
 
-  //filaArray.fazVazia(); esta dando erro tbm
+  filaLista.fazVazia();
+  
+  System.out.println(filaLista);
 
 
   }
