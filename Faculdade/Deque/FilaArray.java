@@ -1,8 +1,8 @@
 /* ***************************************************************
 * Autor............: Franco Ribeiro Borba
 * Matricula........: 202310445
-* Inicio...........: 08/04/2024
-* Ultima alteracao.: 08/04/2024
+* Inicio...........: 09/04/2024
+* Ultima alteracao.: 09/04/2024
 * Nome.............: FilaArray.java
 * Funcao...........: Criar uma fila de Array
 *************************************************************** */
@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class FilaArray<T> implements IFila<T> {
 
-  private T array[];
+  protected T array[];
   private int head , tail , count;
 
   @SuppressWarnings("unchecked")
@@ -160,6 +160,10 @@ public class FilaArray<T> implements IFila<T> {
    */
   public void setTail(int tail){
     this.tail = tail;
+  }
+
+  public int getCount(){
+    return count;
   }
 
   @Override
