@@ -24,7 +24,8 @@ public class Teste {
     System.out.println("O elemento inicial é : " + dequeArray.getPrimeiro());
 
     System.out.println("O elemento retira foi " + dequeArray.desenfileirarFim()); // tem que sair 22
-      System.out.println("O elemento retira foi " + dequeArray.desenfileirarFim()); // tem que sair 1
+    System.out.println("O elemento retira foi " + dequeArray.desenfileirarFim()); // tem que sair 1
+     //System.out.println("O elemento retira foi " + dequeArray.desenfileirarFim()); // tem que sair 5
 
     System.out.println(dequeArray);
     
