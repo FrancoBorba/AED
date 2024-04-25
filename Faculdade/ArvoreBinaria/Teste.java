@@ -14,14 +14,25 @@ public class Teste {
 
     arvoreBinaria.inserirOrdenado(40);
     arvoreBinaria.inserirOrdenado(60);
-
-    arvoreBinaria.imprimirInOrdem();
-
+    arvoreBinaria.inserirOrdenado(65);
     arvoreBinaria.inserirOrdenado(30);
     arvoreBinaria.inserirOrdenado(70);
+    arvoreBinaria.inserirOrdenado(45);
 
     System.out.println("-------------------------------------------------------------------");
 
     arvoreBinaria.imprimirInOrdem();
+    System.out.println("-------------------------------------------------------------------");
+    arvoreBinaria.imprimirEmPreOrdem();
+     System.out.println("-------------------------------------------------------------------");
+     arvoreBinaria.imprimirEmPosOrdem();
+
+     arvoreBinaria.remover(40);
+
+     arvoreBinaria.imprimirInOrdem();
+    System.out.println("-------------------------------------------------------------------");
+    arvoreBinaria.imprimirEmPreOrdem();
+     System.out.println("-------------------------------------------------------------------");
+     arvoreBinaria.imprimirEmPosOrdem();
   }
 }

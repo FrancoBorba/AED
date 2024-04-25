@@ -2,11 +2,16 @@
 * Autor............: Franco Ribeiro Borba
 * Matricula........: 202310445
 * Inicio...........: 24/04/2023
-* Ultima alteracao.: 24/04/2023
+* Ultima alteracao.: 25/04/2023
 * Nome.............: Node.java
 * Funcao...........: Criar uma arvore binaria
 *************************************************************** */
+
 package Faculdade.ArvoreBinaria;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 
 public class Node<T> {
   private T valor; // valor que sera armazenado
@@ -139,7 +144,7 @@ public class Node<T> {
   /*
    * ***************************************************************
    * Metodo: imprimirInOrdem
-   * Funcao: imprimir os valores em ordem
+   * Funcao: imprimir os valores em ordem ( elementos da esquerda , raiz , elemetos da direita)
    * Parametros: void
    * Retorno: void
    * ***************************************************************
@@ -148,12 +153,168 @@ public class Node<T> {
     if(this.getFilhoEsquerda() != null){ 
       this.getFilhoEsquerda().imprimirInOrdem();
     }
-    System.out.println(this.valor + " ");
+    System.out.println(this.valor + " "); // visitando a raiz
   
 
   if(this.getFilhoDireita() !=null){
     this.getFilhoDireita().imprimirInOrdem();
   }
 }
+/*
+   * ***************************************************************
+   * Metodo: imprimirEmPreOrdem
+   * Funcao: imprimir os valores em ordem (raiz , elementos da esquerda, elementos da direita)
+   * Parametros: void
+   * Retorno: void
+   * ***************************************************************
+   */
+  public void imprimirEmPreOrdem(){
+    System.out.println(this.valor + " "); // visitando a raiz primeiro
 
+    if(this.getFilhoEsquerda() != null){ 
+      this.getFilhoEsquerda().imprimirEmPreOrdem();
+    }
+      if(this.getFilhoDireita() !=null){
+    this.getFilhoDireita().imprimirEmPreOrdem();
+  }
+  }
+
+/*
+   * ***************************************************************
+   * Metodo: imprimirEmPosOrdem
+   * Funcao: imprimir os valores em ordem (elementos a esquerda , elementos a direita , raiz)
+   * Parametros: void
+   * Retorno: void
+   * ***************************************************************
+   */
+  public void imprimirEmPosOrdem(){
+     if(this.getFilhoEsquerda() != null){ 
+      this.getFilhoEsquerda().imprimirEmPosOrdem();
+    }
+      if(this.getFilhoDireita() !=null){
+    this.getFilhoDireita().imprimirEmPosOrdem();
+  }
+
+  System.out.println(this.valor + " "); // visita a raiz por ultimo
+  }
+
+
+
+
+/*
+   * ***************************************************************
+   * Metodo: imprimirEmLargura
+   * Funcao: imprimir os valores com uma busca em largura
+   * Parametros: void
+   * Retorno: void
+   * ***************************************************************
+   */
+   public void imprimirEmLargura(){
+      Queue<Node<T>> fila = new LinkedList<Node<T>>();
+      fila.add(this);
+      while(!fila.isEmpty()){
+        Node<T> no = fila.poll();
+        System.out.print(no.getValor() + " | ");
+        if(no.getFilhoEsquerda() != null){
+          fila.add(no.getFilhoEsquerda());
+        }
+        if(no.filho_dir != null){
+          fila.add(no.getFilhoDireita());
+        }
+      }
+    }
+
+  /*
+   * ***************************************************************
+   * Metodo: remover
+   * Funcao: remover um No da arvore sem alterar sua estrutura ordenada
+   * Parametros: Valor do No que sera removido
+   * Retorno: void
+   * ***************************************************************
+   */
+
+
+  public boolean remover(T valor){ // Ta dando erro  ):
+    Node<T> atual = new Node<>(this.valor); // cria um node com o valor da raiz
+    Node<T> paiAtual = null; // cria um node que é o pai do node atual , começa como null ja que o atual é a raiz
+    while (atual != null) { // se chegar em null o Valor nao existe
+      if(atual.getValor().equals(valor)){ // verifica se encontrou o no e caso sim da break
+          break;
+      } else if(valor.toString().compareTo(this.getValor().toString()) < 0){ // o valor procurado é menor entao passa para a esquerda
+        paiAtual = atual;
+          atual = atual.getFilhoEsquerda();
+      } else{ // o valor procurado é maior entao passa para a direita
+      paiAtual = atual;
+        atual = atual.getFilhoDireita();
+      }
+    }
+
+
+    if(atual != null){ // se for diferente de null existe um elemento e sera removido
+
+    // não faz diferença o no ter filhos na direita e na esquerda pois só sera utilizado um "tipo" de substituição
+
+      if(atual.getFilhoDireita() != null ){ // tem filhos somente na direita
+         Node<T> substituto = atual.getFilhoDireita(); 
+          Node<T> paiSubstituto = atual;
+          while (substituto.getFilhoEsquerda() != null) {
+            paiSubstituto = substituto;
+            substituto = substituto.getFilhoEsquerda();
+          }
+          // fazendo a substituição 
+          if(paiAtual != null){ // não ta tirando a raiz
+            if(atual.getValor().toString().compareTo(paiAtual.getValor().toString()) == 1){ // atual é maior do que pai atual , logo ta na direita
+            paiAtual.serNoDireita(substituto);
+          } else{ // se nao o atual esta na esquerda e transforma em null
+            paiAtual.setNoEsquerda(substituto);
+          }
+          } else { // ta tirando a raiz
+          atual = substituto;
+          }
+          
+          // removendo o elemento da arvore
+            if(substituto.getValor().toString().compareTo(paiSubstituto.getValor().toString()) == 1){ // substituto é maior do que paiSubstituto atual , logo ta na direita
+            paiSubstituto.serNoDireita(null);
+          } else{ // se nao o atual esta na esquerda e transforma em null
+           paiSubstituto.setNoEsquerda(null);
+          }
+     
+
+        }else if(atual.getFilhoEsquerda() != null){ // tem filhos somente na esquerda
+          Node<T> substituto = atual.getFilhoEsquerda(); 
+          Node<T> paiSubstituto = atual;
+          while (substituto.getFilhoDireita() != null) {
+            paiSubstituto = substituto;
+            substituto = substituto.getFilhoDireita();
+          }
+          // fazendo a substituição 
+          if(atual.getValor().toString().compareTo(paiAtual.getValor().toString()) == 1){ // atual é maior do que pai atual , logo ta na direita
+            paiAtual.serNoDireita(substituto);
+          } else{ // se nao o atual esta na esquerda e transforma em null
+            paiAtual.setNoEsquerda(substituto);
+          }
+          // removendo o elemento da arvore
+            if(substituto.getValor().toString().compareTo(paiSubstituto.getValor().toString()) == 1){ // substituto é maior do que paiSubstituto atual , logo ta na direita
+            paiSubstituto.serNoDireita(null);
+          } else{ // se nao o atual esta na esquerda e transforma em null
+           paiSubstituto.setNoEsquerda(null);
+          }
+
+      } else{ // Não possui filhos
+          if(atual.getValor().toString().compareTo(paiAtual.getValor().toString()) == 1){ // atual é maior do que pai atual , logo ta na direita
+            paiAtual.serNoDireita(null);
+          } else{ // se nao o atual esta na esquerda e transforma em null
+            paiAtual.setNoEsquerda(null);
+          }
+      }
+
+      return true;
+    }else{
+      return false; // não existia elemento logo não é removido nada
+    }
+
+  }
+     
+      
 }
+
