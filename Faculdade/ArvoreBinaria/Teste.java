@@ -27,12 +27,8 @@ public class Teste {
      System.out.println("-------------------------------------------------------------------");
      arvoreBinaria.imprimirEmPosOrdem();
 
-     arvoreBinaria.remover(40);
-
-     arvoreBinaria.imprimirInOrdem();
-    System.out.println("-------------------------------------------------------------------");
-    arvoreBinaria.imprimirEmPreOrdem();
-     System.out.println("-------------------------------------------------------------------");
-     arvoreBinaria.imprimirEmPosOrdem();
+     System.out.println("A altura da raiz para uma folha é: " + arvoreBinaria.calculaAltura());
+     System.out.println(arvoreBinaria.calculaAlturaEmLargura()); // tenho que adicionar a classe FilaEncadeada na pasta para funcionar
   }
+  
 }

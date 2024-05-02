@@ -224,6 +224,81 @@ public class Node<T> {
       }
     }
 
+/*
+   * ***************************************************************
+   * Metodo: calcularAltura
+   * Funcao: calcular a altura (comprimento do caminho mais longo do nó a uma folha.) Em profundidade   
+   * Parametros: void
+   * Retorno: int
+   * ***************************************************************
+   */
+   protected int calculaAltura() {
+       int alturaesquerda=0;
+       int alturadireita=0;
+               
+       if (this.getFilhoEsquerda()!=null)
+           alturaesquerda = this.getFilhoEsquerda().calculaAltura()+1;
+
+       //aqui, como vou saber a altura do filho da direita pra eu poder calcular a altura do node
+       
+       if (this.getFilhoDireita()!=null)
+           alturadireita = this.getFilhoDireita().calculaAltura()+1;
+         
+       
+       if (alturaesquerda>alturadireita)
+           return alturaesquerda;
+       
+       else
+           return alturadireita;
+  }
+
+/*
+   * ***************************************************************
+   * Metodo: calcularAlturaEmLargura
+   * Funcao: calcular a altura (comprimento do caminho mais longo do nó a uma folha).   
+   * Parametros: void
+   * Retorno: int
+   * ***************************************************************
+   */
+    protected int calculaAlturaEmLargura() {
+       
+       LinkedList f = new LinkedList<>();
+      LinkedList dist = new LinkedList<>();
+
+       f.enfileirar(this);
+      dist.enfileirar(0);
+
+      int altura_maxima = 0;
+
+       while( !f.estaVazia()) {
+           Node<T>  no = (Node<T>)f.desenfileirar();
+         int dist_pai = (int) dist.desenfileirar();
+             
+           if (no.getFilhoEsquerda()!=null) {
+                 f.enfileirar(no.getFilhoEsquerda());
+                dist.enfileirar(dist_pai + 1);
+             }
+                     
+            if (no.getFilhoDireita()!=null) {
+                      f.enfileirar(no.getFilhoDireita());
+                      dist.enfileirar(dist_pai + 1);
+             }
+       
+           // eh folha
+           if (dist_pai > altura_maxima) altura_maxima = dist_pai;
+         }//while
+
+      return altura_maxima;
+    }//imprimelargura
+
+
+
+
+
+
+
+
+
   /*
    * ***************************************************************
    * Metodo: remover
