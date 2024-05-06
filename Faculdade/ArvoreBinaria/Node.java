@@ -1,8 +1,8 @@
 /* ***************************************************************
 * Autor............: Franco Ribeiro Borba
 * Matricula........: 202310445
-* Inicio...........: 24/04/2023
-* Ultima alteracao.: 25/04/2023
+* Inicio...........: 24/04/2024
+* Ultima alteracao.: 06/05/2024
 * Nome.............: Node.java
 * Funcao...........: Criar uma arvore binaria
 *************************************************************** */
@@ -262,34 +262,81 @@ public class Node<T> {
    */
     protected int calculaAlturaEmLargura() {
        
-       LinkedList f = new LinkedList<>();
-      LinkedList dist = new LinkedList<>();
+      Queue<Object> f = new LinkedList<Object>();
+      Queue<Integer> dist = new LinkedList<Integer>();
 
-       f.enfileirar(this);
-      dist.enfileirar(0);
+      f.offer(this);
+      dist.offer(0);
 
       int altura_maxima = 0;
 
-       while( !f.estaVazia()) {
-           Node<T>  no = (Node<T>)f.desenfileirar();
-         int dist_pai = (int) dist.desenfileirar();
+       while(f.peek()!=null) {
+           @SuppressWarnings("unchecked")
+          Node<T>  no = (Node<T>)f.poll();
+         int dist_pai = (int) dist.poll();
              
            if (no.getFilhoEsquerda()!=null) {
-                 f.enfileirar(no.getFilhoEsquerda());
-                dist.enfileirar(dist_pai + 1);
+                 f.offer(no.getFilhoEsquerda());
+                dist.offer(dist_pai + 1);
              }
                      
             if (no.getFilhoDireita()!=null) {
-                      f.enfileirar(no.getFilhoDireita());
-                      dist.enfileirar(dist_pai + 1);
+                      f.offer(no.getFilhoDireita());
+                      dist.offer(dist_pai + 1);
              }
        
            // eh folha
            if (dist_pai > altura_maxima) altura_maxima = dist_pai;
          }//while
+         return altura_maxima;
+    }
 
-      return altura_maxima;
-    }//imprimelargura
+    /*
+   * ***************************************************************
+   * Metodo: calcularTotalNodes
+   * Funcao: calcular a quantidade de nodes
+   * Parametros: void
+   * Retorno: int
+   * ***************************************************************
+   */
+     protected int calculaTotalNodes() {
+      int totalesq=0;
+      int totaldir=0;  
+         
+       if (this.getFilhoEsquerda()!=null) {
+         totalesq = this.getFilhoEsquerda().calculaTotalNodes();
+       }
+       if (this.getFilhoDireita()!=null) {
+         totaldir = this.getFilhoDireita().calculaTotalNodes();
+         }
+       
+       return totalesq+totaldir + 1;
+   }
+    /*
+   * ***************************************************************
+   * Metodo: calcularTotalNodesFolhas
+   * Funcao: calcular a quantidade de nodes que são folhas
+   * Parametros: void
+   * Retorno: int
+   * ***************************************************************
+   */
+   protected int calculaTotalNodesFolhas() {
+
+    int totalesq=0;
+    int totaldir=0;
+    boolean ehfolha=true;
+                     
+    if (this.getFilhoEsquerda()!=null) {
+        totalesq = this.getFilhoEsquerda().calculaTotalNodesFolhas();
+        ehfolha = false;
+       }
+    if (this.getFilhoDireita()!=null) {
+        totaldir = this.getFilhoDireita().calculaTotalNodesFolhas();
+        ehfolha = false;
+       }
+    if (ehfolha) { return 1;}
+    else return (totaldir + totalesq);
+    }
 
 
 
@@ -389,7 +436,166 @@ public class Node<T> {
     }
 
   }
+       /*
+   * ***************************************************************
+   * Metodo: removerNode
+   * Funcao: remover um No da arvore sem alterar sua estrutura ordenada
+   * Parametros: Valor do No que sera removido
+   * Retorno: void
+   * ***************************************************************
+   esse metodo foi feito pelo professor diferente do metodo remover acima no qual tentei fazer sozinho
+   */
+
+
+
+     protected boolean removerNode(T v, Node<T> nodepai){
      
+       int comparacao = v.toString().compareTo(this.getValor().toString());
+       boolean resultado=false;
+       
+       if (comparacao<0){
+          if (this.getFilhoEsquerda()!=null)
+          return this.getFilhoEsquerda().removerNode(v,this); // o nó a ser removido ta na subarvore esquerda
+            else resultado=false;//o valor nao ta na subarvoreesquerda  
+       }
+       else if (comparacao>0) {
+         if (this.getFilhoDireita()!=null)
+             return this.getFilhoDireita().removerNode(v,this); // o valor pode estah na subarvore direita
+             else resultado=false;//valor nao foi encontrado               }
+        }
+        else //o no a ser removido é o atual.
+        {
+            if ((this.getFilhoEsquerda()==null)&&(this.getFilhoDireita()==null)){
+                 //este node é folha, pois os dois filhos sao nulos
+                 this.setFilhoNode(nodepai,null);//setar o filho de pai como nulo
+                 resultado = true;
+               }
+               else if ((this.getFilhoEsquerda()!=null)&&(this.getFilhoDireita()==null)){
+                 //o node tem o filho da esquerda diferente de nulo e o da direita eh nulo
+                 this.setFilhoNode(nodepai,this.getFilhoEsquerda()); //seta o pai o node atual com o filho da esquerda do nodeatual  
+                 resultado = true;
+               }
+               else if ((this.getFilhoEsquerda()==null)&&(this.getFilhoDireita()!=null)){
+                 //o node tem o filho da direita diferente de nulo e o da esquerda eh nulo
+                 this.setFilhoNode(nodepai,this.getFilhoDireita()); //seta o pai do node atual com o filho da direita do nodeatual
+                 resultado = true;  
+               }
+               else if ((this.getFilhoEsquerda()!=null)&&(this.getFilhoDireita()!=null)){
+              //podemos pegar um dos dois nodes a seguir, tanto faz.
+                 //Node<String> nEsq = NodeComMaiorValor(nodeatual.getFilho_esq()); //pega o node com maior valor da subarvore esquerda
+                 
+                   Node<T> menorNodeDir = this.getFilhoDireita().NodeComMenorValor(); //pega o node com menor valor da subarvore da direita
+                   Node<T> paiMenorNodeDir;
+                   if (menorNodeDir !=this.getFilhoDireita()) { //verifica se o proprio node raiz da subarvore direita eh ou nao o menor valor
+                       paiMenorNodeDir = this.getFilhoDireita().acharPai(menorNodeDir);
+                   }
+                   else paiMenorNodeDir=this;
+                   
+                   this.setValor(menorNodeDir.getValor());//coloca o novo valor no nodeatual.
+                   /*
+                    * Se menorNodeDir eh o menor valor da subarvore direita, entao menorNodeDir nao tem filhos a esquerda porque
+                    * o menor valor de uma arvore eh o node mais a esquerda dessa arvore
+                    * sendo assim, eu já sei que o menorNodeDir tem no maximo um filho a direita
+                    * ou ele eh um node folha.
+                    * Sendo assim posso setar diretamente o filho (direita) do paiMenorNoDir com o filho da direita do menorNodeDir
+                    */
+                 
+                   menorNodeDir.setFilhoNode(paiMenorNodeDir,menorNodeDir.getFilhoDireita()); //seta o pai do menorNode com o filho da direita
+                  //menorNodeDir.removerNode(menorNodeDir.getValor(), paiMenorNodeDir)
+                   resultado = true;
+                   }
+                 
+               }
+   
+       return resultado;
+}
+
+
+  /*
+   * ***************************************************************
+   * Metodo: setFilhoNode
+   * Funcao: adicionat um no filho em relacao ao no Pai passado como parametro,seta o filho de um node pai como sendo o novo node
+   * Parametros: NodePai , e novoNode que sera o filho
+   * Retorno: void
+   * ***************************************************************
+   */
+
+protected void setFilhoNode(Node<T> nodePai, Node<T> novoNode) {
+
+       if (nodePai.getFilhoEsquerda()==this) {
+             nodePai.setNoEsquerda(novoNode);}
+       else
+       if (nodePai.getFilhoDireita()==this) {    
+           nodePai.serNoDireita(novoNode);}
+}
+
+  /*
+   * ***************************************************************
+   * Metodo: NodeComMaiorValor
+   * Funcao: retornar o Node com maior valor
+   * Parametros: void
+   * Retorno: Node , retorna o No com maior valor
+   * ***************************************************************
+   */
+
+protected Node<T> NodeComMaiorValor() {
+ if (this.getFilhoDireita()!= null) {
+           return this.getFilhoDireita().NodeComMaiorValor();          
+        }
+ else return this;
+}//fim algotimo
+
+/*
+   * ***************************************************************
+   * Metodo: NodeComMenorValor
+   * Funcao: retornar o Node com menor valor
+   * Parametros: void
+   * Retorno: Node , retorna o No com menor valor
+   * ***************************************************************
+   */
+protected Node<T> NodeComMenorValor() {
+       if (this.getFilhoEsquerda()!= null) {
+            return this.getFilhoEsquerda().NodeComMenorValor();
+     } else return this;
+    }//fim algotimo
+
+    /*
+   * ***************************************************************
+   * Metodo: acharPai
+   * Funcao: retornar o Node com maior valor
+   * Parametros: void
+   * Retorno: Node , retorna o No com maior valor
+   * ***************************************************************
+   */
+   protected Node<T> acharPai(Node<T> nofilho) {
+    /*
+       Esse algoritmo retorna o pai do Node noFilho
+       O algoritmo verifica se o node do contexto de execução do metodo
+       node This eh pai (pela esquerda ou pela direita) do nofilho.  
+ */  
+
+       if (this.getFilhoEsquerda() == nofilho || this.getFilhoDireita() == nofilho) {
+          return this;
+        } else
+          {
+          if (nofilho.getValor().toString().compareTo(this.getValor().toString()) > 0) {
+              //o valor do no do atual contexto é maior que o nofilho, entao o pai estah do lado esquerdo
+             if (this.getFilhoEsquerda() != null) {
+              return this.getFilhoEsquerda().acharPai(nofilho);
+            } else {
+              return null;//pode ser que o nofilho nao esta na arvore ou ele eh o no raiz
+            }
+          } else {// subarvore direita
+            if (this.getFilhoEsquerda() != null) {
+              return this.getFilhoDireita().acharPai(nofilho);
+            } else {
+              return null; //pode ser que o nofilho nao esta na arvore ou ele eh o no raiz
+            }
+          }
+        }
+ 
+
       
+}
 }
 
