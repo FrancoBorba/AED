@@ -3,36 +3,43 @@ package Faculdade.HeapSort;
 public class Teste {
   public static void main(String[] args) {
     int vetor[] = new int[20];
-    int tamanhoVetor = vetor.length;
+   
 
     // vetor desordenado
     for( int i =0 ; i < vetor.length ; i++){
       vetor[i] = (int) Math.floor(Math.random() * vetor.length);
     }
     
-     for( int i =0 ; i < vetor.length ; i++){
-      System.out.print(vetor[i] + "  ");
-    }
+    imprimirArray(vetor);
+    ordenar(vetor);
 
-      for( int i = (vetor.length/2) -1 ; i >= 0 ; i--){
-            HeapSort(vetor , tamanhoVetor , i);
-    }
-    for(int i = tamanhoVetor-1 ; i >0 ; i--){
-        int auxiliar = vetor[0];
-      vetor[0] = vetor[i];
-      vetor[i] = auxiliar;
-      HeapSort(vetor, i , 0);
-    }
-
-    System.out.println();
-     for( int i =0 ; i < vetor.length ; i++){
-      System.out.print(vetor[i] + "  ");
-    }
+    imprimirArray(vetor);
+    
+    
   }
+   public static void ordenar(int arr[])
+    {
+        int N = arr.length;
+
+        // Construir heap (reorganizar o array)
+        for (int i = N / 2 - 1; i >= 0; i--)
+            HeapSort(arr, N, i);
+
+        // Um por um, extraia um elemento do heap
+        for (int i = N - 1; i > 0; i--) {
+            // Mover a raiz atual para o fim
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+
+            // Chamar max heapify no heap reduzido
+              HeapSort(arr, i, 0);
+        }
+    }
 
   
-
-  public static void HeapSort(int vetor[] , int tamanhoVetor , int i){
+  // esse metodo reorganiza "arvore" em uma max-heap
+  public static  void HeapSort(int vetor[] , int tamanhoVetor , int i){
    
 
     int raiz = i;
@@ -55,5 +62,14 @@ public class Teste {
     }
 
   }
+
+   public static void imprimirArray(int arr[])
+    {
+        int N = arr.length;
+
+        for (int i = 0; i < N; ++i)
+            System.out.print(arr[i] + " ");
+        System.out.println();
+    }
   
 }
